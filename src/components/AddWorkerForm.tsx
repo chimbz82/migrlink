@@ -1,59 +1,86 @@
 import React from 'react';
-import { Camera, Shield, Lock, FileText, CheckCircle2 } from 'lucide-react';
+import { Camera, Shield, Lock, ChevronLeft, ScanLine } from 'lucide-react';
 
-export default function AddWorkerForm() {
+interface AddWorkerFormProps {
+  onBack: () => void;
+}
+
+export default function AddWorkerForm({ onBack }: AddWorkerFormProps) {
   return (
-    <div className="max-w-2xl mx-auto bg-white dark:bg-[#0F172A] rounded-2xl border border-slate-200 dark:border-slate-800 shadow-xl overflow-hidden mt-8">
-      {/* Progress Header */}
-      <div className="bg-slate-50 dark:bg-slate-900/50 p-6 border-b border-slate-200 dark:border-slate-800 flex justify-between items-center">
-        <div className="flex gap-4">
-           {[1, 2, 3].map((step) => (
-             <div key={step} className="flex items-center gap-2">
-                <div className={`w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-bold ${step === 1 ? 'bg-[#0F172A] text-white dark:bg-white dark:text-[#0F172A]' : 'bg-slate-200 text-slate-500 dark:bg-slate-800 dark:text-slate-400'}`}>
-                  {step}
-                </div>
-                <div className={`h-1 w-8 rounded ${step === 1 ? 'bg-[#0F172A] dark:bg-white' : 'bg-slate-200 dark:bg-slate-800'}`} />
-             </div>
-           ))}
-        </div>
-        <span className="text-[10px] font-bold text-[#14B8A6] flex items-center gap-1">
-          <Shield className="w-3 h-3" /> SECURE ENROLLMENT
-        </span>
+    <div className="max-w-2xl mx-auto bg-white dark:bg-[#0F172A] rounded-lg border border-slate-200 dark:border-slate-800 shadow-sm mt-8 animate-in slide-in-from-bottom-4 duration-500">
+      {/* Header */}
+      <div className="bg-[#0F172A] p-4 text-white rounded-t-lg flex items-center justify-between">
+         <div className="flex items-center gap-3">
+            <button onClick={onBack} className="p-1 hover:bg-white/10 rounded transition-colors text-slate-300 hover:text-white">
+              <ChevronLeft className="w-5 h-5" />
+            </button>
+            <h2 className="text-sm font-bold uppercase tracking-widest">Enroll New Record</h2>
+         </div>
+         <div className="flex items-center gap-1.5 px-2 py-1 bg-white/10 rounded text-[9px] font-bold uppercase tracking-widest">
+            <Lock className="w-3 h-3 text-[#14B8A6]" /> Auth Verified
+         </div>
       </div>
 
       <div className="p-8 space-y-8">
-        <div>
-          <h3 className="text-lg font-bold text-[#0F172A] dark:text-white">Identity Verification</h3>
-          <p className="text-sm text-slate-500">Capture the worker's Right to Work documents via secure uplink.</p>
+        {/* Step Indicator */}
+        <div className="flex justify-between items-center px-4">
+           {[1, 2, 3].map((step) => (
+             <React.Fragment key={step}>
+                <div className="flex flex-col items-center gap-2">
+                   <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold border-2 ${step === 1 ? 'border-[#14B8A6] text-[#14B8A6]' : 'border-slate-200 text-slate-400 dark:border-slate-700'}`}>
+                     {step}
+                   </div>
+                   <span className={`text-[9px] font-bold uppercase tracking-widest ${step === 1 ? 'text-[#0F172A] dark:text-white' : 'text-slate-400'}`}>
+                      {step === 1 ? 'Identity' : step === 2 ? 'Documents' : 'Consent'}
+                   </span>
+                </div>
+                {step !== 3 && <div className="flex-1 h-[2px] bg-slate-100 dark:bg-slate-800 mx-4 -mt-5" />}
+             </React.Fragment>
+           ))}
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div className="space-y-2">
-            <label className="text-[11px] font-bold uppercase tracking-wider text-slate-500">Full Name (as on Passport)</label>
-            <input className="w-full bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 rounded-lg p-3 text-sm focus:ring-2 focus:ring-[#14B8A6] transition-all outline-none" placeholder="e.g. Alexander Hamilton" />
-          </div>
-          <div className="space-y-2">
-            <label className="text-[11px] font-bold uppercase tracking-wider text-slate-500">Certificate of Sponsorship (CoS)</label>
-            <input className="w-full bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 rounded-lg p-3 text-sm font-mono" placeholder="C4X 8821 902 L" />
-          </div>
-        </div>
+        <div className="h-[1px] bg-slate-100 dark:bg-slate-800" />
 
-        {/* Camera Component Styling */}
-        <div className="aspect-video bg-slate-900 rounded-xl flex flex-col items-center justify-center border-2 border-dashed border-slate-700 hover:border-[#14B8A6] transition-all group cursor-pointer relative overflow-hidden">
-           <Camera className="w-12 h-12 text-slate-600 group-hover:text-[#14B8A6] transition-colors" />
-           <p className="mt-4 text-xs font-bold text-slate-400 group-hover:text-white">ACTIVATE SECURE CAMERA CAPTURE</p>
-           <div className="absolute bottom-4 left-4 flex items-center gap-2">
-              <div className="w-2 h-2 bg-red-500 rounded-full animate-pulse" />
-              <span className="text-[10px] font-mono text-white/40 uppercase tracking-widest">Live Feed Disabled</span>
-           </div>
+        <div className="space-y-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="space-y-2">
+              <label className="text-[10px] font-black uppercase tracking-widest text-[#0F172A] dark:text-white">Legal Full Name</label>
+              <input className="w-full bg-white dark:bg-[#0F172A] border border-slate-200 dark:border-slate-700 rounded-sm p-3 text-sm focus:border-[#14B8A6] focus:ring-1 focus:ring-[#14B8A6] transition-all outline-none" placeholder="Per Official ID" />
+            </div>
+            <div className="space-y-2">
+              <label className="text-[10px] font-black uppercase tracking-widest text-[#0F172A] dark:text-white">System Ref (CoS)</label>
+              <input className="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-sm p-3 text-sm font-mono focus:border-[#14B8A6] focus:ring-1 focus:ring-[#14B8A6] transition-all outline-none" placeholder="XXX 0000 000 X" />
+            </div>
+          </div>
+
+          {/* Institutional Camera Block */}
+          <div className="space-y-2 pt-4">
+             <label className="text-[10px] font-black uppercase tracking-widest text-[#0F172A] dark:text-white flex items-center gap-2">
+                <ScanLine className="w-3 h-3 text-[#14B8A6]" /> Secure Feed Uplink
+             </label>
+             <div className="aspect-video bg-[#020617] rounded-sm flex flex-col items-center justify-center border-2 border-slate-800 hover:border-[#14B8A6]/50 transition-all cursor-pointer relative overflow-hidden group">
+               <Camera className="w-10 h-10 text-slate-600 group-hover:text-white transition-colors z-10 mb-3" />
+               <p className="text-[10px] font-mono text-slate-400 group-hover:text-white z-10 transition-colors uppercase tracking-[0.2em] bg-black/50 px-3 py-1 rounded">Initialize Frame Capture</p>
+               
+               {/* Technical Scanlines */}
+               <div className="absolute inset-0 pointer-events-none opacity-20" style={{ background: 'repeating-linear-gradient(transparent, transparent 2px, rgba(0,0,0,0.5) 2px, rgba(0,0,0,0.5) 4px)' }} />
+               <div className="absolute inset-0 pointer-events-none opacity-10" style={{ background: 'linear-gradient(90deg, rgba(20, 184, 166, 0.2), transparent, rgba(20, 184, 166, 0.2))' }} />
+               
+               <div className="absolute bottom-3 left-3 flex items-center gap-2 z-10">
+                  <div className="w-1.5 h-1.5 bg-red-500 rounded-full animate-pulse" />
+                  <span className="text-[9px] font-mono text-slate-400 uppercase tracking-widest">OFFLINE</span>
+               </div>
+               <div className="absolute top-3 right-3 text-[8px] font-mono text-slate-500">1080P/Encrypted</div>
+            </div>
+          </div>
         </div>
 
         <div className="flex items-center justify-between pt-6 border-t border-slate-100 dark:border-slate-800">
-          <p className="text-[10px] text-slate-400 flex items-center gap-1">
-            <Lock className="w-3 h-3" /> Data encrypted with AES-256 for OISC compliance.
+          <p className="text-[9px] text-slate-400 font-mono uppercase tracking-wider flex items-center gap-1">
+            <Lock className="w-3 h-3 text-slate-300" /> AES-256 Transport
           </p>
-          <button className="bg-[#0F172A] dark:bg-white text-white dark:text-[#0F172A] px-8 py-3 rounded-lg font-bold text-sm hover:opacity-90 transition-opacity active:scale-[0.98]">
-            CONTINUE TO STEP 2
+          <button className="bg-[#0F172A] dark:bg-white text-white dark:text-[#0F172A] px-6 py-2.5 rounded-sm font-black text-[10px] uppercase tracking-[0.15em] hover:bg-slate-800 dark:hover:bg-slate-200 transition-colors">
+            Proceed
           </button>
         </div>
       </div>

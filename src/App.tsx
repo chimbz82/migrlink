@@ -40,10 +40,11 @@ import DashboardLayout from './components/DashboardLayout';
 import SponsorDashboard from './components/SponsorDashboard';
 import WorkerPortal from './components/WorkerPortal';
 import ThemeShowcase from './components/ThemeShowcase';
+import AddWorkerForm from './components/AddWorkerForm';
 import { Smartphone, Building2, Palette } from 'lucide-react';
 
 export default function App() {
-  const [view, setView] = useState<'sponsor' | 'worker' | 'themes'>('sponsor');
+  const [view, setView] = useState<'sponsor' | 'worker' | 'themes' | 'addWorker'>('sponsor');
   const [stats, setStats] = useState<DashboardStats | null>(null);
   const [workers, setWorkers] = useState<Worker[]>([]);
   const [events, setEvents] = useState<ComplianceEvent[]>([]);
@@ -143,7 +144,11 @@ export default function App() {
         <ThemeShowcase />
       ) : view === 'sponsor' ? (
         <DashboardLayout>
-          <SponsorDashboard />
+          <SponsorDashboard onAddWorker={() => setView('addWorker')} />
+        </DashboardLayout>
+      ) : view === 'addWorker' ? (
+        <DashboardLayout>
+          <AddWorkerForm onBack={() => setView('sponsor')} />
         </DashboardLayout>
       ) : (
         <WorkerPortal />

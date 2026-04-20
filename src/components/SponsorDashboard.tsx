@@ -1,119 +1,119 @@
-import React, { useState } from 'react';
-import { Activity, Clock, FileCheck, AlertCircle, ShieldCheck, Download, History, Plus, FileSpreadsheet } from 'lucide-react';
-import AddWorkerForm from './AddWorkerForm';
+import React from 'react';
+import { Activity, Clock, FileCheck, AlertCircle, ShieldCheck, Download, History, Lock, FileKey } from 'lucide-react';
 import WorkersTable from './WorkersTable';
 
-export default function SponsorDashboard() {
-  const [activeTab, setActiveTab] = useState<'form' | 'table'>('table');
+interface SponsorDashboardProps {
+  onAddWorker: () => void;
+}
+
+export default function SponsorDashboard({ onAddWorker }: SponsorDashboardProps) {
   return (
-    <div className="space-y-8">
-      {/* Hero Section: Compliance Health */}
-      <section className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div className="lg:col-span-1 bg-white dark:bg-[#0F172A] border border-slate-200 dark:border-slate-800 rounded-xl p-8 flex flex-col items-center justify-center shadow-sm relative overflow-hidden">
-          <div className="absolute top-4 left-4 flex items-center gap-2">
+    <div className="space-y-8 animate-in fade-in duration-500">
+      {/* Header Block */}
+      <div className="flex justify-between items-end border-b border-slate-200 dark:border-slate-800 pb-4">
+        <div>
+          <h1 className="text-2xl font-black tracking-tight text-[#0F172A] dark:text-white">UKVI Compliance Overview</h1>
+          <p className="text-sm text-slate-500 font-medium mt-1">Real-time status of sponsored identities and duties.</p>
+        </div>
+        <div className="flex items-center gap-2 text-[10px] uppercase font-bold tracking-widest text-slate-400 bg-white dark:bg-[#0F172A] px-3 py-1.5 rounded border border-slate-200 dark:border-slate-800 shadow-sm">
+          <Lock className="w-3 h-3 text-[#14B8A6]" />
+          End-to-End Encrypted
+        </div>
+      </div>
+
+      <section className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+        {/* Hero Circular Gauge */}
+        <div className="lg:col-span-1 bg-white dark:bg-[#0F172A] border border-slate-200 dark:border-slate-800 rounded-lg p-6 flex flex-col items-center justify-center relative shadow-sm">
+          <div className="absolute top-4 left-4 flex items-center gap-1.5">
              <ShieldCheck className="w-4 h-4 text-[#14B8A6]" />
-             <span className="text-[10px] font-bold uppercase tracking-widest opacity-50">UKVI Compliance Score</span>
+             <span className="text-[10px] font-bold uppercase tracking-widest text-slate-400">Health Score</span>
           </div>
           
-          <div className="relative flex items-center justify-center w-48 h-48">
-            <svg className="w-full h-full transform -rotate-90">
-              <circle cx="96" cy="96" r="88" stroke="currentColor" strokeWidth="12" fill="transparent" className="text-slate-100 dark:text-slate-800" />
-              <circle cx="96" cy="96" r="88" stroke="#14B8A6" strokeWidth="12" fill="transparent" strokeDasharray={552.9} strokeDashoffset={55.3} className="transition-all duration-1000 ease-out" />
+          <div className="relative flex items-center justify-center w-40 h-40 mt-6 lg:mt-0">
+             <svg className="w-full h-full transform -rotate-90">
+              <circle cx="80" cy="80" r="70" stroke="currentColor" strokeWidth="8" fill="transparent" className="text-slate-100 dark:text-slate-800" />
+              <circle cx="80" cy="80" r="70" stroke="#14B8A6" strokeWidth="8" fill="transparent" strokeDasharray={439.8} strokeDashoffset={26.3} className="transition-all duration-1000 ease-out" />
             </svg>
             <div className="absolute inset-0 flex flex-col items-center justify-center">
-              <span className="text-6xl font-black text-[#0F172A] dark:text-white">94</span>
-              <span className="text-sm font-bold text-[#14B8A6] uppercase tracking-tighter">Excellent</span>
+              <span className="text-5xl font-black text-[#0F172A] dark:text-white tracking-tighter">94</span>
+              <span className="text-[9px] font-bold text-[#14B8A6] uppercase tracking-[0.2em] mt-1 shadow-sm px-2 py-0.5 rounded-full bg-teal-50 dark:bg-teal-900/30">Excellent</span>
             </div>
           </div>
-          <p className="mt-6 text-xs text-slate-500 text-center max-w-[200px]">
-            Your sponsorship license is at low risk. <span className="text-[#0F172A] font-bold">4 minor tasks</span> outstanding.
-          </p>
         </div>
 
-        <div className="lg:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-4">
+        {/* 4 Metric Cards & Export Row */}
+        <div className="lg:col-span-3 grid grid-cols-2 lg:grid-cols-4 gap-4">
           {[
-            { label: 'Expiring Visas', val: '12', icon: Clock, color: 'text-amber-600', bg: 'bg-amber-50' },
-            { label: 'Unused CoS', val: '08', icon: FileCheck, color: 'text-[#14B8A6]', bg: 'bg-teal-50' },
-            { label: 'SA Verifications', val: '142', icon: Activity, color: 'text-blue-600', bg: 'bg-blue-50' },
-            { label: 'Overdue Duties', val: '03', icon: AlertCircle, color: 'text-red-600', bg: 'bg-red-50' },
-          ].map((item) => (
-            <div key={item.label} className="bg-white dark:bg-[#0F172A] p-6 rounded-xl border border-slate-200 dark:border-slate-800 flex items-center justify-between group hover:border-[#14B8A6] transition-all cursor-default">
-              <div>
-                <p className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">{item.label}</p>
-                <p className="text-3xl font-bold text-[#0F172A] dark:text-white">{item.val}</p>
+            { label: 'Expiring Visas', val: '12', icon: Clock, color: 'text-slate-600 dark:text-slate-300' },
+            { label: 'Unused CoS', val: '08', icon: FileCheck, color: 'text-[#14B8A6]' },
+            { label: 'SA Identifiers', val: '142', icon: Activity, color: 'text-slate-600 dark:text-slate-300' },
+            { label: 'Overdue Duties', val: '03', icon: AlertCircle, color: 'text-red-600' },
+          ].map((item, idx) => (
+            <div key={item.label} className={`bg-white dark:bg-[#0F172A] p-5 rounded-lg border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col justify-between ${idx === 3 ? 'border-l-2 border-l-red-500' : ''}`}>
+              <div className="flex justify-between items-start mb-4">
+                <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">{item.label}</p>
+                <item.icon className={`w-4 h-4 ${item.color}`} />
               </div>
-              <div className={`p-3 rounded-lg ${item.bg} dark:bg-slate-800`}>
-                <item.icon className={`w-6 h-6 ${item.color}`} />
-              </div>
+              <p className="text-3xl font-black text-[#0F172A] dark:text-white tracking-tight">{item.val}</p>
             </div>
           ))}
-          <div className="sm:col-span-2 bg-[#0F172A] dark:bg-slate-900 rounded-xl p-4 flex items-center justify-between text-white border border-white/10">
-            <div className="flex items-center gap-3">
-              <div className="bg-[#14B8A6] p-2 rounded">
-                <Download className="w-4 h-4 text-white" />
-              </div>
-              <div>
-                <p className="text-sm font-bold">Generate Full Audit Report</p>
-                <p className="text-[11px] opacity-60">Prepared for Home Office inspection (PDF/JSON)</p>
-              </div>
-            </div>
-            <button className="bg-white text-[#0F172A] px-4 py-2 rounded font-bold text-xs hover:bg-[#14B8A6] hover:text-white transition-colors">
-              EXPORT DATA
-            </button>
+
+          {/* Action Bar */}
+          <div className="col-span-2 lg:col-span-4 bg-[#0F172A] dark:bg-slate-900 border border-slate-800 rounded-lg p-5 flex flex-col sm:flex-row items-center justify-between shadow-lg relative overflow-hidden">
+             {/* Decorative element */}
+             <div className="absolute right-0 top-0 bottom-0 w-1/3 bg-gradient-to-l from-white/5 to-transparent pointer-events-none" />
+             <div className="flex items-center gap-4 text-white z-10">
+                <div className="bg-slate-800 p-2.5 rounded shadow-inner border border-slate-700">
+                  <Download className="w-5 h-5 text-[#14B8A6]" />
+                </div>
+                <div>
+                  <p className="font-bold text-sm tracking-wide">Generate Full Initial Audit Report</p>
+                  <p className="text-[11px] text-slate-400 mt-0.5">Prepare cryptographic append-only ledger for Home Office (JSON format).</p>
+                </div>
+             </div>
+             <button className="mt-4 sm:mt-0 bg-white text-[#0F172A] px-6 py-2.5 rounded font-black text-[10px] uppercase tracking-[0.15em] hover:bg-slate-100 transition-colors shadow-sm z-10 w-full sm:w-auto">
+                Export Ledger
+             </button>
           </div>
         </div>
       </section>
 
       {/* Main Content Area */}
-      <div className="grid grid-cols-1 xl:grid-cols-4 gap-8">
-        <div className="xl:col-span-3 space-y-6">
-          <div className="flex items-center justify-between">
-            <h2 className="text-lg font-bold flex items-center gap-2">
-              <span className="w-1.5 h-6 bg-[#0F172A] rounded-full" />
-              Active Workers & CoS Registry
+      <div className="grid grid-cols-1 xl:grid-cols-4 gap-8 pt-4">
+        <div className="xl:col-span-3 space-y-4">
+          <div className="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-3">
+            <h2 className="text-sm font-bold uppercase tracking-widest text-[#0F172A] dark:text-white flex items-center gap-2">
+              <FileKey className="w-4 h-4 text-[#14B8A6]" />
+              Sponsored Identifiers
             </h2>
-            <div className="flex gap-2">
-              <button 
-                onClick={() => setActiveTab('table')}
-                className={`p-2 rounded transition-colors ${activeTab === 'table' ? 'bg-slate-200 dark:bg-slate-800' : 'hover:bg-slate-100 dark:hover:bg-slate-800/50'}`}
-              >
-                 <FileSpreadsheet className="w-4 h-4" />
-              </button>
-              <button 
-                onClick={() => setActiveTab('form')}
-                className="bg-[#0F172A] text-white px-4 py-2 rounded text-xs font-bold flex items-center gap-1 hover:opacity-90"
-              >
-                 <Plus className="w-3 h-3" /> ADD WORKER
-              </button>
-            </div>
+            <button onClick={onAddWorker} className="bg-[#0F172A] dark:bg-white text-white dark:text-[#0F172A] px-4 py-2 rounded text-[10px] font-black uppercase tracking-widest hover:opacity-90 transition-opacity">
+              + Enroll Record
+            </button>
           </div>
-          
-          <div className="bg-white dark:bg-[#0F172A] rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden min-h-[400px]">
-             {activeTab === 'form' ? (
-                <div className="p-4"><AddWorkerForm /></div>
-             ) : (
-                <WorkersTable />
-             )}
+          <div className="bg-white dark:bg-[#0F172A] rounded-lg border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden">
+             <WorkersTable />
           </div>
         </div>
 
-        {/* Sidebar: Audit Log */}
+        {/* Sidebar: Immutable Audit Log */}
         <div className="xl:col-span-1 space-y-4">
-          <div className="flex items-center gap-2 mb-4">
-             <History className="w-4 h-4" />
-             <h2 className="text-sm font-bold uppercase tracking-widest">Audit Trail</h2>
+          <div className="flex items-center gap-2 mb-4 border-b border-slate-200 dark:border-slate-800 pb-3">
+             <History className="w-4 h-4 text-slate-500" />
+             <h2 className="text-sm font-bold uppercase tracking-widest text-[#0F172A] dark:text-white">Immutable Trail</h2>
           </div>
           <div className="space-y-3">
             {[1, 2, 3, 4, 5].map((i) => (
-              <div key={i} className="bg-white dark:bg-[#0F172A] p-4 rounded-lg border border-slate-200 dark:border-slate-800 relative group">
+              <div key={i} className="bg-white dark:bg-[#0F172A] p-3.5 rounded border border-slate-200 dark:border-slate-800 relative group shadow-sm transition-all hover:border-slate-300 dark:hover:border-slate-700">
                 <div className="flex justify-between items-start mb-2">
-                  <span className="text-[10px] font-bold text-[#14B8A6] bg-teal-50 dark:bg-teal-900/30 px-1.5 py-0.5 rounded">PASSED</span>
-                  <span className="text-[10px] font-mono text-slate-400">12:04:0{i} UTC</span>
+                  <span className="text-[9px] font-black text-[#14B8A6] bg-teal-50 dark:bg-teal-900/30 px-1.5 py-0.5 rounded tracking-wider border border-teal-100 dark:border-teal-800/50">VERIFIED</span>
+                  <span className="text-[9px] font-mono text-slate-400">12:04:0{i} UTC</span>
                 </div>
-                <p className="text-[11px] font-bold text-[#0F172A] dark:text-white leading-tight mb-1">Worker Document Uploaded</p>
-                <p className="text-[10px] text-slate-500 font-mono break-all opacity-60 group-hover:opacity-100 transition-opacity">
-                  SHA-256: 8f3c...b2e{i}
-                </p>
+                <p className="text-[11px] font-bold text-[#0F172A] dark:text-white leading-tight mb-1">State Transition: Auth</p>
+                <div className="bg-slate-50 dark:bg-slate-900 p-1.5 rounded mt-2 border border-slate-100 dark:border-slate-800">
+                  <p className="text-[8px] text-slate-500 font-mono break-all opacity-80 uppercase leading-relaxed">
+                    SHA: 8f3c1a2b3c4d5e6f7g8h9<br/>i0j1k2l3m4n5o6p7q8r9s0{i}
+                  </p>
+                </div>
               </div>
             ))}
           </div>
