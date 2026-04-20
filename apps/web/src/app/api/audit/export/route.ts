@@ -1,46 +1,43 @@
 import { NextResponse } from 'next/server';
 import { auth } from '@clerk/nextjs/server';
+import { createComplianceEvent, verifyChainIntegrity } from '@migralink/compliance-engine';
 import { db } from '@migralink/db';
 import { complianceEvents } from '@migralink/db/schema';
-import { createComplianceEvent } from '@migralink/compliance-engine';
 import { eq, desc } from 'drizzle-orm';
-import crypto from 'crypto';
 
-export async function POST(req: Request) {
+export async function POST() {
   const { userId, orgId } = auth();
-  if (!userId || !orgId) return new NextResponse('Unauthorized', { status: 401 });
+  if (!userId || !orgId) {
+    return new NextResponse('Unauthorized', { status: 401 });
+  }
 
   const events = await db.query.complianceEvents.findMany({
     where: eq(complianceEvents.organizationId, orgId),
-    orderBy: [desc(complianceEvents.occurredAt)]
+    orderBy: [desc(complianceEvents.occurredAt)],
   });
 
-  let isValidChain = true;
-  for (let i = 0; i < events.length - 1; i++) {
-    if (events[i].hashPrev !== events[i+1].hashSelf) {
-      isValidChain = false;
-      break;
-    }
-  }
+  const { valid } = await verifyChainIntegrity(orgId);
 
   const exportPayload = {
     exportedAt: new Date().toISOString(),
     organizationId: orgId,
-    chainIntegrityValid: isValidChain,
+    exportedBy: userId,
+    chainIntegrityValid: valid,
     totalRecords: events.length,
-    events
+    events,
   };
 
-  const auditReceiptHash = await createComplianceEvent(orgId, 'system', 'AUDIT_EXPORT_GENERATED', {
+  // Log the export action itself (extends the chain)
+  await createComplianceEvent(orgId, null, 'AUDIT_EXPORT_GENERATED', {
     triggeredBy: userId,
     totalRecords: events.length,
-    verifiedClean: isValidChain,
+    verifiedClean: valid,
   });
 
-  return new NextResponse(JSON.stringify({ ...exportPayload, auditReceiptHash }, null, 2), {
+  return new NextResponse(JSON.stringify(exportPayload, null, 2), {
     headers: {
       'Content-Type': 'application/json',
-      'Content-Disposition': `attachment; filename="migralink_audit_chain_${orgId}.json"`
-    }
+      'Content-Disposition': `attachment; filename="migralink_audit_${orgId}_${Date.now()}.json"`,
+    },
   });
 }

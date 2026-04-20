@@ -43,7 +43,7 @@ import ThemeShowcase from './components/ThemeShowcase';
 import { Smartphone, Building2, Palette } from 'lucide-react';
 
 export default function App() {
-  const [view, setView] = useState<'sponsor' | 'worker' | 'themes'>('themes');
+  const [view, setView] = useState<'sponsor' | 'worker' | 'themes'>('sponsor');
   const [stats, setStats] = useState<DashboardStats | null>(null);
   const [workers, setWorkers] = useState<Worker[]>([]);
   const [events, setEvents] = useState<ComplianceEvent[]>([]);
