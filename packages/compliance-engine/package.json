@@ -1,0 +1,9 @@
+{
+  "name": "@migralink/compliance-engine",
+  "version": "1.0.0",
+  "private": true,
+  "main": "./index.ts",
+  "dependencies": {
+    "canonicalize": "^2.0.0"
+  }
+}
