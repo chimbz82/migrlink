@@ -6,3 +6,16 @@ coverage/
 *.log
 .env*
 !.env.example
+
+# Next.js
+.next/
+out/
+next-env.d.ts
+
+# Tailwind / caching
+.turbo
+.vercel
+
+# SQLite (if local testing)
+*.db
+*.db-journal
