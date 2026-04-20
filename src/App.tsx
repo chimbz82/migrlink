@@ -39,10 +39,11 @@ interface ComplianceEvent {
 import DashboardLayout from './components/DashboardLayout';
 import SponsorDashboard from './components/SponsorDashboard';
 import WorkerPortal from './components/WorkerPortal';
-import { Smartphone, Building2 } from 'lucide-react';
+import ThemeShowcase from './components/ThemeShowcase';
+import { Smartphone, Building2, Palette } from 'lucide-react';
 
 export default function App() {
-  const [view, setView] = useState<'sponsor' | 'worker'>('sponsor');
+  const [view, setView] = useState<'sponsor' | 'worker' | 'themes'>('themes');
   const [stats, setStats] = useState<DashboardStats | null>(null);
   const [workers, setWorkers] = useState<Worker[]>([]);
   const [events, setEvents] = useState<ComplianceEvent[]>([]);
@@ -125,16 +126,22 @@ export default function App() {
 
   return (
     <>
-      <div className="fixed bottom-4 right-4 z-[9999] bg-white dark:bg-slate-800 p-1 rounded-full shadow-2xl border border-slate-200 dark:border-slate-700 flex items-center gap-1">
-        <button onClick={() => setView('sponsor')} className={`px-4 py-2 rounded-full text-xs font-bold flex items-center gap-2 transition-colors ${view === 'sponsor' ? 'bg-[#0F172A] text-white' : 'text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-700'}`}>
-          <Building2 className="w-4 h-4" /> Sponsor
+      <div className="fixed bottom-4 left-1/2 -translate-x-1/2 z-[9999] bg-white dark:bg-slate-800 p-1.5 rounded-full shadow-2xl border border-slate-200 dark:border-slate-700 flex items-center gap-1">
+        <button onClick={() => setView('themes')} className={`px-4 py-2 rounded-full text-xs font-bold flex items-center gap-2 transition-colors ${view === 'themes' ? 'bg-pink-500 text-white' : 'text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-700'}`}>
+          <Palette className="w-4 h-4" /> Design Explorer
         </button>
-        <button onClick={() => setView('worker')} className={`px-4 py-2 rounded-full text-xs font-bold flex items-center gap-2 transition-colors ${view === 'worker' ? 'bg-[#14B8A6] text-white flex-1' : 'text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-700'}`}>
-          <Smartphone className="w-4 h-4" /> Worker App
+        <div className="w-[1px] h-6 bg-slate-200 dark:bg-slate-700 mx-1" />
+        <button onClick={() => setView('sponsor')} className={`px-4 py-2 rounded-full text-xs font-bold flex items-center gap-2 transition-colors ${view === 'sponsor' ? 'bg-[#0F172A] text-white' : 'text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-700'}`}>
+          <Building2 className="w-4 h-4" /> Provider Dash
+        </button>
+        <button onClick={() => setView('worker')} className={`px-4 py-2 rounded-full text-xs font-bold flex items-center gap-2 transition-colors ${view === 'worker' ? 'bg-[#14B8A6] text-white' : 'text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-700'}`}>
+          <Smartphone className="w-4 h-4" /> Worker Portal
         </button>
       </div>
 
-      {view === 'sponsor' ? (
+      {view === 'themes' ? (
+        <ThemeShowcase />
+      ) : view === 'sponsor' ? (
         <DashboardLayout>
           <SponsorDashboard />
         </DashboardLayout>

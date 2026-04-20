@@ -1,7 +1,7 @@
 import React from 'react';
 import { UploadCloud, CheckCircle, Smartphone, UserCheck, ShieldCheck } from 'lucide-react';
 
-export default function WorkerPortal() {
+export default function WorkerPortalPage() {
   return (
     <div className="min-h-screen bg-[#F8FAFC] dark:bg-[#020617] p-4 font-sans">
       <div className="max-w-md mx-auto space-y-6 pt-8">
@@ -25,6 +25,10 @@ export default function WorkerPortal() {
             <div className="mt-4 pt-4 border-t border-white/20 flex justify-between items-end">
               <span className="text-xs font-medium">Step: Identity Verification</span>
               <span className="text-xs font-bold">60% Complete</span>
+            </div>
+            {/* Progress bar */}
+            <div className="w-full bg-white/20 h-1 mt-2 rounded-full overflow-hidden">
+               <div className="bg-white h-full" style={{ width: '60%' }} />
             </div>
           </div>
           <div className="absolute top-[-20%] right-[-10%] w-32 h-32 bg-white/10 rounded-full blur-2xl" />
@@ -59,11 +63,11 @@ export default function WorkerPortal() {
           </div>
         </div>
 
-        {/* Compliance Footer */}
-        <div className="text-center pt-8">
-           <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest mb-2">Institutional Security</p>
-           <p className="text-[11px] text-slate-500 leading-relaxed italic px-4">
-            "Your data is processed under UK GDPR and hosted on government-approved infrastructure."
+        {/* Privacy Statement Footer */}
+        <div className="bg-[#0F172A] text-slate-300 p-4 rounded-xl mt-6">
+           <p className="text-[10px] font-bold uppercase tracking-widest mb-1 text-white">Privacy Statement</p>
+           <p className="text-[10px] leading-relaxed">
+            Your data is strictly processed under UK GDPR and hosted on Sovereign Cloud infrastructure in the UK-South region. Biometric details are encrypted end-to-end and shared only with UKVI.
            </p>
         </div>
       </div>
