@@ -1,106 +1,116 @@
 import React from 'react';
-import { Clock, FileCheck, Activity, AlertCircle, History } from 'lucide-react';
+import { Download, Terminal } from 'lucide-react';
 import WorkersTable from './WorkersTable';
 
 interface SponsorDashboardProps {
-  onAddWorker?: () => void;
+  onAddWorker: () => void;
 }
 
 export default function SponsorDashboard({ onAddWorker }: SponsorDashboardProps) {
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-      {/* Main Dashboard Area */}
-      <div className="lg:col-span-8 flex flex-col gap-6">
+    <div className="grid grid-cols-1 xl:grid-cols-12 gap-6 animate-in fade-in duration-300">
+      
+      {/* COMMAND GRID (Span 8) */}
+      <div className="xl:col-span-8 space-y-6">
         
-        {/* Top Metrics Row */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {/* Hero Element */}
-          <div className="bg-white dark:bg-[#0F172A] p-6 border border-slate-200 dark:border-slate-800 rounded-xl flex items-center justify-between">
-            <div className="space-y-4">
-              <h2 className="text-[11px] font-bold uppercase tracking-widest text-slate-500">Compliance Health Score</h2>
-              <div className="inline-block bg-teal-50 dark:bg-teal-900/30 text-[#14B8A6] border border-teal-100 dark:border-teal-800 text-[10px] font-bold uppercase tracking-widest px-2.5 py-1 rounded">
-                Excellent
-              </div>
-            </div>
-            <div className="relative flex items-center justify-center w-28 h-28">
-              <svg className="w-full h-full transform -rotate-90">
-                <circle cx="56" cy="56" r="48" fill="none" stroke="currentColor" strokeWidth="8" className="text-slate-100 dark:text-slate-800" />
-                <circle cx="56" cy="56" r="48" fill="none" stroke="#14B8A6" strokeWidth="8" strokeDasharray={301.6} strokeDashoffset={18} strokeLinecap="square" />
-              </svg>
-              <div className="absolute inset-0 flex items-center justify-center">
-                <span className="text-4xl font-bold tracking-tight text-[#0F172A] dark:text-white">94</span>
-              </div>
-            </div>
+        {/* Main Status Panel */}
+        <div className="bg-white dark:bg-[#0B1120] border border-[#CBD5E1] dark:border-slate-800 rounded-sm border-t-2 border-t-[#1E293B] shadow-sm">
+          <div className="p-4 border-b border-[#CBD5E1] dark:border-slate-800 bg-[#F1F5F9] dark:bg-slate-900/50 flex justify-between items-center">
+            <h2 className="text-[10px] font-bold uppercase tracking-widest text-[#1E293B] dark:text-white">System Compliance Overview</h2>
+            <span className="text-[9px] font-mono text-slate-500 bg-white dark:bg-black px-2 py-0.5 border border-[#CBD5E1] dark:border-slate-800 rounded-sm shadow-inner uppercase">Live Sync</span>
           </div>
+          
+          <div className="p-6 grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+            {/* Status Bar Gauge */}
+            <div>
+               <p className="text-[10px] font-bold uppercase tracking-widest text-[#0369A1] mb-2 drop-shadow-sm">System Health Score</p>
+               <div className="flex items-end gap-3 mb-3">
+                  <span className="text-5xl font-black text-[#1E293B] dark:text-white tabular-nums tracking-tighter">94.00</span>
+                  <span className="text-xl font-bold text-[#0D9488] mb-1">%</span>
+               </div>
+               {/* Industrial Progress Bar */}
+               <div className="w-full h-4 bg-[#F1F5F9] dark:bg-slate-900 border border-[#CBD5E1] dark:border-slate-700 rounded-sm overflow-hidden shadow-inner flex">
+                 <div className="h-full bg-[#0D9488] border-r border-[#1E293B]/20" style={{ width: '94%' }} />
+               </div>
+               <div className="flex justify-between mt-1 text-[9px] font-mono text-slate-500 uppercase">
+                  <span>0.00</span>
+                  <span>Target: 99.99</span>
+               </div>
+            </div>
 
-          {/* Grid Metrics */}
-          <div className="grid grid-cols-2 gap-4">
-            {[
-              { label: 'Expiring Visas', val: '12', icon: Clock },
-              { label: 'Unused CoS', val: '08', icon: FileCheck },
-              { label: 'SA Identifiers', val: '142', icon: Activity },
-              { label: 'Overdue Duties', val: '03', icon: AlertCircle, alert: true },
-            ].map((metric) => (
-              <div key={metric.label} className="bg-white dark:bg-[#0F172A] p-4 border border-slate-200 dark:border-slate-800 rounded-xl flex flex-col justify-between">
-                <div className="flex justify-between items-start mb-2">
-                   <span className={`text-[10px] font-bold uppercase tracking-widest leading-tight ${metric.alert ? 'text-[#EF4444]' : 'text-slate-500'}`}>
-                     {metric.label}
-                   </span>
+            {/* Rigid Metrics Grid */}
+            <div className="grid grid-cols-2 gap-[1px] bg-[#CBD5E1] dark:bg-slate-700 border border-[#CBD5E1] dark:border-slate-700 rounded-sm shadow-inner overflow-hidden">
+              {[
+                { label: 'Expiring Visas', val: '12', alert: false },
+                { label: 'Unused CoS', val: '08', alert: false },
+                { label: 'SA Requests', val: '142', alert: false },
+                { label: 'Overdue Duties', val: '03', alert: true },
+              ].map((m) => (
+                <div key={m.label} className="bg-white dark:bg-[#0B1120] p-4 flex flex-col justify-between hover:bg-slate-50 dark:hover:bg-slate-900 transition-colors">
+                  <span className="text-[9px] font-bold uppercase tracking-widest text-slate-500">{m.label}</span>
+                  <span className={`text-2xl font-black tabular-nums mt-2 ${m.alert ? 'text-[#EF4444]' : 'text-[#1E293B] dark:text-white'}`}>
+                    {m.val}
+                  </span>
                 </div>
-                <span className={`text-2xl font-bold tracking-tight ${metric.alert ? 'text-[#EF4444]' : 'text-[#0F172A] dark:text-white'}`}>
-                  {metric.val}
-                </span>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
         </div>
 
-        {/* Workers Table */}
-        <div className="bg-white dark:bg-[#0F172A] border border-slate-200 dark:border-slate-800 rounded-xl overflow-hidden flex flex-col">
-          <div className="p-4 border-b border-slate-200 dark:border-slate-800 flex justify-between items-center bg-slate-50 dark:bg-[#020617]">
-            <h3 className="text-[11px] font-bold uppercase tracking-widest text-[#0F172A] dark:text-white">Active Workers & CoS Registry</h3>
-            <button 
-              onClick={onAddWorker}
-              className="bg-[#0F172A] dark:bg-white text-white dark:text-[#0F172A] px-4 py-2 rounded text-[10px] font-bold uppercase tracking-widest transition-colors hover:bg-slate-800 dark:hover:bg-slate-200"
-            >
-              + Add Worker
-            </button>
+        {/* Data Table Panel */}
+        <div className="bg-white dark:bg-[#0B1120] border border-[#CBD5E1] dark:border-slate-800 rounded-sm border-t-2 border-t-[#1E293B] shadow-sm">
+          <div className="p-4 border-b border-[#CBD5E1] dark:border-slate-800 bg-[#F1F5F9] dark:bg-slate-900/50 flex justify-between items-center">
+            <h3 className="text-[10px] font-bold uppercase tracking-widest text-[#1E293B] dark:text-white">Active Registry Ledger</h3>
+            <div className="flex gap-2">
+              <button className="bg-white dark:bg-slate-800 border border-[#CBD5E1] dark:border-slate-700 px-3 py-1.5 rounded-sm text-[9px] font-bold uppercase tracking-widest text-[#1E293B] dark:text-white shadow-sm hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors flex items-center gap-2">
+                <Download className="w-3 h-3 text-[#0369A1]" /> Export CSV
+              </button>
+              <button 
+                onClick={onAddWorker}
+                className="bg-[#1E293B] text-white px-4 py-1.5 rounded-sm text-[9px] font-bold uppercase tracking-widest shadow-sm hover:bg-[#0F172A] transition-colors"
+              >
+                + New Record
+              </button>
+            </div>
           </div>
           <WorkersTable />
         </div>
       </div>
 
-      {/* Sidebar: Immutable Audit Trail */}
-      <div className="lg:col-span-4 flex flex-col gap-4">
-        <div className="bg-white dark:bg-[#0F172A] border border-slate-200 dark:border-slate-800 rounded-xl p-5 flex flex-col h-full">
-          <div className="flex items-center gap-2 mb-6 border-b border-slate-200 dark:border-slate-800 pb-4">
-            <History className="w-4 h-4 text-[#0F172A] dark:text-white" />
-            <h3 className="text-[11px] font-bold uppercase tracking-widest text-[#0F172A] dark:text-white">Immutable Audit Trail</h3>
+      {/* Terminal Audit Log (Span 4) */}
+      <div className="xl:col-span-4 bg-black border border-[#1E293B] rounded-sm flex flex-col h-[700px] shadow-2xl relative overflow-hidden">
+        {/* Terminal Header */}
+        <div className="bg-[#1E293B] text-slate-300 p-2.5 flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest border-b border-black">
+          <Terminal className="w-3 h-3" /> System Event Log
+        </div>
+        
+        {/* Terminal Body */}
+        <div className="flex-1 p-4 overflow-y-auto space-y-3 font-mono text-[10px]">
+          <div className="text-slate-500 mb-4 pb-2 border-b border-slate-800 uppercase">
+            &gt; Connecting to Secure Ledger... [ESTABLISHED]<br/>
+            &gt; Pulling event hashes...
           </div>
           
-          <div className="flex-1 space-y-6">
-            {[
-              { tag: 'WORKER_ADDED', ts: '12:04:02 UTC', hash: 'e4d909c290d0fb1cae4d909' },
-              { tag: 'DOC_VERIFIED', ts: '10:15:33 UTC', hash: 'f2a17b019ac8f7k2zf2a17b' },
-              { tag: 'COS_ASSIGNED', ts: '09:00:12 UTC', hash: '8a9c0f7b6d5e4f3a28a9c0f' },
-              { tag: 'AUDIT_EXPORT', ts: '08:45:00 UTC', hash: '1b2c3d4e5f6a7b8c91b2c3d' },
-              { tag: 'SYSTEM_SYNC', ts: '00:00:01 UTC', hash: '9z8y7x6w5v4u3t2s19z8y7x' },
-            ].map((log, i) => (
-              <div key={i} className="relative pl-6 before:absolute before:left-[5px] before:top-2 before:bottom-[-24px] before:w-[1px] before:bg-slate-200 dark:before:bg-slate-800 last:before:hidden">
-                <div className="absolute left-[2px] top-1.5 w-2 h-2 rounded-full bg-slate-300 dark:bg-slate-700" />
-                <div className="space-y-1">
-                  <div className="flex justify-between items-center text-[10px] uppercase font-bold tracking-widest">
-                    <span className="text-[#0F172A] dark:text-white">{log.tag}</span>
-                    <span className="text-slate-500">{log.ts}</span>
-                  </div>
-                  <div className="bg-slate-50 dark:bg-[#020617] border border-slate-200 dark:border-slate-800 px-2 py-1.5 rounded mt-1 overflow-hidden">
-                    <span className="text-[10px] text-slate-500 font-mono tracking-tighter block truncate">
-                      SHA: {log.hash}
-                    </span>
-                  </div>
-                </div>
+          {[
+            { status: '[OK]', c: 'text-[#0D9488]', ev: 'WORKER_AUTH_GRANTED', h: 'e4d909c290d0fb1ca', ts: '12:04:02' },
+            { status: '[OK]', c: 'text-[#0D9488]', ev: 'DOC_OCR_COMPLETED', h: 'f2a17b019ac8f7k2z', ts: '10:15:33' },
+            { status: '[WARN]', c: 'text-amber-500', ev: 'COS_RENEWAL_NEAR', h: '8a9c0f7b6d5e4f3aa', ts: '09:00:12' },
+            { status: '[OK]', c: 'text-[#0D9488]', ev: 'DSAR_EXPORT_DONE', h: '1b2c3d4e5f6a7b8c9', ts: '08:45:00' },
+            { status: '[SYNC]', c: 'text-[#0369A1]', ev: 'OISC_DB_POLL_OK', h: '9z8y7x6w5v4u3t2s1', ts: '00:00:01' },
+            { status: '[OK]', c: 'text-[#0D9488]', ev: 'INIT_BOOT_SEQ', h: '0a0b0c0d0e0f0g0h0', ts: '00:00:00' },
+          ].map((log, i) => (
+            <div key={i} className="flex gap-3 leading-relaxed hover:bg-slate-900/50 p-1 -mx-1 rounded-sm cursor-default">
+              <span className="text-slate-500 uppercase">{log.ts}</span>
+              <span className={`${log.c} w-12 shrink-0 font-bold uppercase`}>{log.status}</span>
+              <div className="flex-1 text-slate-300 break-all uppercase tracking-tighter">
+                <span className="text-white block mb-0.5">{log.ev}</span>
+                <span className="text-slate-600">SHA:{log.h}</span>
               </div>
-            ))}
+            </div>
+          ))}
+          
+          <div className="text-slate-500 pt-4 animate-pulse uppercase">
+            &gt; Awaiting stream...
           </div>
         </div>
       </div>

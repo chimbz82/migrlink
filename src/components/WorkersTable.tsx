@@ -1,59 +1,64 @@
 import React from 'react';
+import { Copy } from 'lucide-react';
 
 export default function WorkersTable() {
   const workers = [
-    { name: 'Sarah Chen', init: 'SC', cos: 'C4X-992-L81', status: 'Compliant', expiry: '12 Oct 2026' },
-    { name: 'Marcus Rashford', init: 'MR', cos: 'A01-882-K92', status: 'Review Required', expiry: '02 May 2026', alert: true },
-    { name: 'Elena Rodriguez', init: 'ER', cos: 'X92-110-Q33', status: 'Compliant', expiry: '20 Jan 2027' },
-    { name: 'David Lee', init: 'DL', cos: 'B44-210-M10', status: 'Compliant', expiry: '14 Nov 2025' },
-    { name: 'Michael Smith', init: 'MS', cos: 'K14-884-X90', status: 'Compliant', expiry: '03 Feb 2026' },
+    { name: 'SARAH CHEN', init: 'SC', cos: 'C4X-992-L81', verif: 'V-89A2K', status: 'VERIFIED', expiry: '2026-10-12' },
+    { name: 'MARCUS RASHFORD', init: 'MR', cos: 'A01-882-K92', verif: 'V-01M9P', status: 'REVIEW', expiry: '2026-05-02', alert: true },
+    { name: 'ELENA RODRIGUEZ', init: 'ER', cos: 'X92-110-Q33', verif: 'V-77B4L', status: 'VERIFIED', expiry: '2027-01-20' },
+    { name: 'DAVID LEE', init: 'DL', cos: 'B44-210-M10', verif: 'V-32X1N', status: 'VERIFIED', expiry: '2025-11-14' },
+    { name: 'MICHAEL SMITH', init: 'MS', cos: 'K14-884-X90', verif: 'V-99Q8R', status: 'VERIFIED', expiry: '2026-02-03' },
   ];
 
   return (
     <div className="w-full overflow-x-auto">
-      <table className="w-full text-left border-collapse">
+      <table className="w-full text-left border-collapse tabular-nums">
         <thead>
-          <tr className="border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-[#0F172A]">
-            <th className="py-4 px-6 text-[10px] font-bold uppercase tracking-widest text-slate-500">Worker Identity</th>
-            <th className="py-4 px-6 text-[10px] font-bold uppercase tracking-widest text-slate-500">CoS Reference</th>
-            <th className="py-4 px-6 text-[10px] font-bold uppercase tracking-widest text-slate-500">Compliance Status</th>
-            <th className="py-4 px-6 text-[10px] font-bold uppercase tracking-widest text-slate-500">Visa Expiry</th>
-            <th className="py-4 px-6 text-right text-[10px] font-bold uppercase tracking-widest text-slate-500">Action</th>
+          <tr className="bg-[#1E293B] text-white">
+            <th className="py-3 px-4 text-[9px] font-bold uppercase tracking-[0.2em] border-r border-[#0F172A]">Subject Identity</th>
+            <th className="py-3 px-4 text-[9px] font-bold uppercase tracking-[0.2em] border-r border-[#0F172A]">CoS Allocation</th>
+            <th className="py-3 px-4 text-[9px] font-bold uppercase tracking-[0.2em] border-r border-[#0F172A]">Verif ID</th>
+            <th className="py-3 px-4 text-[9px] font-bold uppercase tracking-[0.2em] border-r border-[#0F172A]">Compliance State</th>
+            <th className="py-3 px-4 text-[9px] font-bold uppercase tracking-[0.2em] border-r border-[#0F172A]">Expiry Date</th>
+            <th className="py-3 px-4 text-right text-[9px] font-bold uppercase tracking-[0.2em]">Actions</th>
           </tr>
         </thead>
-        <tbody className="divide-y divide-slate-100 dark:divide-slate-800 bg-white dark:bg-[#0F172A]">
+        <tbody className="bg-white dark:bg-[#0B1120]">
           {workers.map((w, i) => (
-            <tr key={i} className="hover:bg-slate-50 dark:hover:bg-slate-900/50 transition-colors">
-              <td className="py-3 px-6">
+            <tr key={i} className={`border-b border-[#CBD5E1] dark:border-slate-800 ${i % 2 === 0 ? 'bg-transparent' : 'bg-[#F8FAFC] dark:bg-slate-900/30'} hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors`}>
+              <td className="py-2.5 px-4">
                 <div className="flex items-center gap-3">
-                  <div className="w-8 h-8 rounded bg-slate-100 dark:bg-slate-800 text-[#0F172A] dark:text-white flex items-center justify-center text-[11px] font-bold tracking-wider">
+                  <div className="w-6 h-6 rounded-sm bg-[#1E293B] text-white flex items-center justify-center text-[9px] font-bold shadow-inner">
                     {w.init}
                   </div>
-                  <span className="text-sm font-bold text-[#0F172A] dark:text-white">{w.name}</span>
+                  <span className="text-[11px] font-bold text-[#1E293B] dark:text-white uppercase tracking-wider">{w.name}</span>
                 </div>
               </td>
-              <td className="py-3 px-6">
-                <span className="font-mono text-[11px] text-[#0F172A] dark:text-slate-300">
-                  {w.cos}
-                </span>
+              <td className="py-2.5 px-4 font-mono text-[10px] text-[#1E293B] dark:text-slate-300">
+                {w.cos}
               </td>
-              <td className="py-3 px-6">
-                <div className={`inline-block px-2.5 py-1 rounded text-[10px] font-bold uppercase tracking-widest ${
+              <td className="py-2.5 px-4">
+                <div className="flex items-center gap-2 font-mono text-[10px] text-[#0369A1] bg-sky-50 dark:bg-sky-900/20 border border-sky-200 dark:border-sky-800 rounded-sm px-1.5 py-0.5 inline-flex shadow-inner">
+                  {w.verif} <Copy className="w-3 h-3 cursor-pointer hover:text-[#1E293B] transition-colors" />
+                </div>
+              </td>
+              <td className="py-2.5 px-4">
+                <div className={`inline-block px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-widest border rounded-sm shadow-inner ${
                   w.alert 
-                    ? 'bg-red-50 dark:bg-[#EF4444]/10 text-[#EF4444]' 
-                    : 'bg-teal-50 dark:bg-[#14B8A6]/10 text-[#14B8A6]'
+                    ? 'border-[#EF4444] text-[#EF4444] bg-red-50 dark:bg-[#EF4444]/10' 
+                    : 'border-[#0D9488] text-[#0D9488] bg-teal-50 dark:bg-[#0D9488]/10'
                 }`}>
                   {w.status}
                 </div>
               </td>
-              <td className="py-3 px-6">
-                <span className="text-[11px] font-bold text-[#0F172A] dark:text-white">
+              <td className="py-2.5 px-4">
+                <span className="text-[10px] font-mono text-[#1E293B] dark:text-slate-300">
                   {w.expiry}
                 </span>
               </td>
-              <td className="py-3 px-6 text-right">
-                <button className="text-[10px] font-bold uppercase tracking-widest text-[#0F172A] dark:text-white hover:text-[#14B8A6] dark:hover:text-[#14B8A6] transition-colors">
-                  View Record
+              <td className="py-2.5 px-4 text-right">
+                <button className="text-[9px] font-bold uppercase tracking-[0.15em] text-[#0369A1] hover:text-[#1E293B] dark:hover:text-white transition-colors underline decoration-[#0369A1]/30 underline-offset-4">
+                  Open Dossier
                 </button>
               </td>
             </tr>
