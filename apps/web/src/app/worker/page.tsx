@@ -250,7 +250,6 @@ export default function WorkerPortalPage() {
   );
 }
 
-      <div className="max-w-md mx-auto space-y-6 pt-8">
         {/* Branding & Status */}
         <div className="text-center space-y-2">
           <div className="inline-flex items-center justify-center w-12 h-12 bg-[#0F172A] rounded-xl mb-4 shadow-lg">

@@ -264,7 +264,6 @@ export default function SponsorDashboardPage() {
   );
 }
 
-      {/* Hero Section: Compliance Health */}
       <section className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div className="lg:col-span-1 bg-white dark:bg-[#0F172A] border border-slate-200 dark:border-slate-800 rounded-xl p-8 flex flex-col items-center justify-center shadow-sm relative overflow-hidden">
           <div className="absolute top-4 left-4 flex items-center gap-2">
