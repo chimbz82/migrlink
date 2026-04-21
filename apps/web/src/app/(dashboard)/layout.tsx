@@ -1,62 +1,151 @@
-import React from 'react';
-import { ShieldCheck, Bell, User } from 'lucide-react';
+'use client';
+
+import React, { useEffect, useState } from 'react';
+import { ShieldCheck, Bell, ChevronDown, Lock } from 'lucide-react';
+
+const NAV_ITEMS = ['Dashboard', 'Workers', 'Audit Logs', 'CoS Management', 'Settings'];
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
+  const [utcTime, setUtcTime] = useState('');
+
+  useEffect(() => {
+    const tick = () => {
+      const now = new Date();
+      setUtcTime(
+        now.toUTCString().replace('GMT', 'UTC').split(' ').slice(1).join(' ')
+      );
+    };
+    tick();
+    const id = setInterval(tick, 1000);
+    return () => clearInterval(id);
+  }, []);
+
   return (
-    <div className="min-h-screen bg-[#F8FAFC] dark:bg-[#020617] text-[#0F172A] dark:text-slate-200 font-sans">
-      {/* OISC Regulatory Disclaimer Bar */}
-      <div className="bg-[#0F172A] text-white py-1.5 px-4 text-center text-[11px] font-medium tracking-wider uppercase border-b border-white/10">
-        Registered with the OISC • Ref: F202400012 • This platform is for UKVI Compliance Management only.
+    <div
+      className="min-h-screen text-[#1E293B] font-sans"
+      style={{ background: '#F1F5F9', fontFamily: "'Inter', system-ui, sans-serif" }}
+    >
+      {/* ── Utility Bar ── */}
+      <div
+        className="w-full flex items-center justify-between px-4 border-b"
+        style={{
+          background: '#1E293B',
+          borderColor: '#334155',
+          height: '26px',
+          fontSize: '10px',
+          letterSpacing: '0.06em',
+          color: '#94A3B8',
+        }}
+      >
+        <div className="flex items-center gap-4">
+          <span className="flex items-center gap-1.5">
+            <Lock size={9} className="text-[#0D9488]" />
+            <span style={{ color: '#0D9488', fontWeight: 700 }}>ENCRYPTION: AES-256-GCM</span>
+          </span>
+          <span style={{ color: '#475569' }}>|</span>
+          <span>OISC REG: F202400012</span>
+          <span style={{ color: '#475569' }}>|</span>
+          <span>DATA RESIDENCY: UK-SOUTH</span>
+        </div>
+        <div className="flex items-center gap-3">
+          <span className="flex items-center gap-1.5" style={{ fontVariantNumeric: 'tabular-nums', fontFamily: 'monospace' }}>
+            <span style={{ color: '#64748B' }}>SYS TIME (UTC)</span>
+            <span style={{ color: '#E2E8F0', fontWeight: 600 }}>{utcTime}</span>
+          </span>
+          <span
+            className="flex items-center gap-1"
+            style={{ color: '#0D9488', fontWeight: 700, fontSize: '9px', letterSpacing: '0.1em' }}
+          >
+            <span
+              className="inline-block w-1.5 h-1.5 rounded-full"
+              style={{ background: '#0D9488', animation: 'pulse 2s infinite' }}
+            />
+            LIVE
+          </span>
+        </div>
       </div>
 
-      {/* Institutional Header */}
-      <header className="sticky top-0 z-50 w-full border-b border-slate-200 dark:border-slate-800 bg-white/80 dark:bg-[#0F172A]/80 backdrop-blur-md">
-        <div className="max-w-[1600px] mx-auto px-6 h-16 flex items-center justify-between">
-          <div className="flex items-center gap-8">
-            <div className="flex items-center gap-2">
-              <div className="bg-[#0F172A] p-1.5 rounded">
-                <ShieldCheck className="w-6 h-6 text-[#14B8A6]" />
-              </div>
-              <span className="text-xl font-bold tracking-tight text-[#0F172A] dark:text-white">
-                Migra<span className="text-[#14B8A6]">Link</span>
-              </span>
-            </div>
-            
-            <nav className="hidden md:flex items-center gap-1">
-              {['Dashboard', 'Workers', 'Audit Logs', 'CoS Management', 'Settings'].map((item) => (
-                <button key={item} className="px-4 py-2 text-sm font-medium hover:bg-slate-100 dark:hover:bg-slate-800 rounded-md transition-colors">
-                  {item}
-                </button>
-              ))}
-            </nav>
+      {/* ── Institutional Header ── */}
+      <header
+        className="sticky top-0 z-50 w-full border-b"
+        style={{
+          background: '#F8FAFC',
+          borderColor: '#CBD5E1',
+          boxShadow: 'inset 0 -1px 0 #CBD5E1',
+        }}
+      >
+        <div className="max-w-[1800px] mx-auto flex items-stretch" style={{ height: '48px' }}>
+          {/* Logo Block */}
+          <div
+            className="flex items-center gap-2 px-5 border-r"
+            style={{ borderColor: '#CBD5E1', minWidth: '200px' }}
+          >
+            <ShieldCheck size={18} className="text-[#0D9488]" strokeWidth={2.5} />
+            <span style={{ fontSize: '15px', fontWeight: 800, color: '#1E293B', letterSpacing: '-0.02em' }}>
+              MIGRA<span style={{ color: '#0369A1' }}>LINK</span>
+            </span>
           </div>
 
-          <div className="flex items-center gap-4">
-            <div className="hidden lg:flex items-center gap-2 px-3 py-1 bg-slate-100 dark:bg-slate-800 rounded-full border border-slate-200 dark:border-slate-700">
-              <div className="w-2 h-2 rounded-full bg-[#14B8A6] animate-pulse" />
-              <span className="text-[11px] font-semibold text-slate-500 uppercase tracking-tight">Data Residency: UK-South</span>
-            </div>
-            <button className="p-2 text-slate-500 hover:text-[#0F172A] relative">
-              <Bell className="w-5 h-5" />
-              <span className="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full border-2 border-white" />
+          {/* Navigation Tabs */}
+          <nav className="flex items-stretch flex-1">
+            {NAV_ITEMS.map((item, i) => (
+              <button
+                key={item}
+                className="relative flex items-center px-5 border-r transition-colors"
+                style={{
+                  borderColor: '#CBD5E1',
+                  fontSize: '11px',
+                  fontWeight: i === 0 ? 700 : 500,
+                  color: i === 0 ? '#1E293B' : '#64748B',
+                  letterSpacing: '0.05em',
+                  background: i === 0 ? '#FFFFFF' : 'transparent',
+                  boxShadow: i === 0 ? 'inset 0 -2px 0 #0369A1' : 'none',
+                }}
+              >
+                {item.toUpperCase()}
+              </button>
+            ))}
+          </nav>
+
+          {/* Right Controls */}
+          <div className="flex items-stretch border-l" style={{ borderColor: '#CBD5E1' }}>
+            <button
+              className="flex items-center justify-center px-4 border-r transition-colors hover:bg-slate-100"
+              style={{ borderColor: '#CBD5E1', position: 'relative' }}
+            >
+              <Bell size={15} className="text-[#64748B]" />
+              <span
+                className="absolute top-3 right-3 w-1.5 h-1.5 rounded-full"
+                style={{ background: '#DC2626' }}
+              />
             </button>
-            <div className="h-8 w-[1px] bg-slate-200 dark:bg-slate-800 mx-2" />
-            <div className="flex items-center gap-3 pl-2">
-              <div className="text-right hidden sm:block">
-                <p className="text-xs font-bold leading-none">Institutional Sponsor</p>
-                <p className="text-[10px] text-slate-500 font-mono mt-1">ID: 8821-XQ</p>
+            <button
+              className="flex items-center gap-2 px-4 hover:bg-slate-100 transition-colors"
+              style={{ fontSize: '11px', color: '#1E293B' }}
+            >
+              <div
+                className="flex items-center justify-center w-6 h-6 text-white font-bold"
+                style={{ background: '#1E293B', fontSize: '10px', borderRadius: '2px' }}
+              >
+                IS
               </div>
-              <div className="w-9 h-9 rounded-full bg-slate-200 dark:bg-slate-800 flex items-center justify-center border border-slate-300">
-                <User className="w-5 h-5" />
+              <div className="text-left hidden sm:block">
+                <div style={{ fontWeight: 700, lineHeight: 1.2 }}>INSTITUTIONAL SPONSOR</div>
+                <div style={{ fontVariantNumeric: 'tabular-nums', color: '#64748B', fontSize: '9px', fontFamily: 'monospace' }}>
+                  ID: 8821-XQ
+                </div>
               </div>
-            </div>
+              <ChevronDown size={12} className="text-[#94A3B8]" />
+            </button>
           </div>
         </div>
       </header>
 
-      <main className="max-w-[1600px] mx-auto p-6 lg:p-8 animate-in fade-in duration-700">
+      {/* ── Page Content ── */}
+      <main className="max-w-[1800px] mx-auto p-4 lg:p-5">
         {children}
       </main>
     </div>
   );
 }
+
