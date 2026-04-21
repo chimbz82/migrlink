@@ -1,0 +1,35 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --color-base: #F1F5F9;
+  --color-primary: #1E293B;
+  --color-accent-blue: #0369A1;
+  --color-accent-teal: #0D9488;
+  --color-border: #CBD5E1;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  background: var(--color-base);
+  color: var(--color-primary);
+}
+
+/* Tabular numerals for all data — override per-element as needed */
+.tabular {
+  font-variant-numeric: tabular-nums;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
