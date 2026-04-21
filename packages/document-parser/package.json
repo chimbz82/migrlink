@@ -2,5 +2,9 @@
   "name": "@migralink/document-parser",
   "version": "1.0.0",
   "private": true,
-  "main": "./index.ts"
+  "main": "./src/index.ts",
+  "exports": {
+    ".": "./src/index.ts",
+    "./r2": "./src/r2.ts"
+  }
 }
