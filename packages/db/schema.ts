@@ -1,4 +1,15 @@
-import { pgTable, uuid, text, timestamp, jsonb } from 'drizzle-orm/pg-core';
+import { pgTable, uuid, text, varchar, timestamp, jsonb } from 'drizzle-orm/pg-core';
+
+export const workers = pgTable('workers', {
+  id: uuid('id').primaryKey().defaultRandom(),
+  organizationId: text('organization_id').notNull(),
+  clerkUserId: text('clerk_user_id').notNull().unique(),
+  legalNameComponents: jsonb('legal_name_components').notNull().default('{}'),
+  nationality: text('nationality'),
+  cosReference: varchar('cos_reference', { length: 100 }),
+  visaExpiry: timestamp('visa_expiry', { mode: 'date' }),
+  createdAt: timestamp('created_at', { mode: 'date' }).defaultNow().notNull(),
+});
 
 export const complianceEvents = pgTable('compliance_events', {
   id: uuid('id').primaryKey().defaultRandom(),

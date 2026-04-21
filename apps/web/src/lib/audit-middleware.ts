@@ -11,7 +11,7 @@ export async function logPIIAccess(req: NextRequest, userId: string, orgId: stri
   
   // Identify sensitive routes that require PII read audits
   if (url.includes('/worker/') || url.includes('/api/audit') || url.includes('/api/docs/view')) {
-    const ipAddress = req.headers.get('x-forwarded-for') || req.ip || 'Unknown';
+    const ipAddress = req.headers.get('x-forwarded-for') ?? 'Unknown';
     const userAgent = req.headers.get('user-agent') || 'Unknown';
 
     // Fire-and-forget to Inngest to avoid blocking the request

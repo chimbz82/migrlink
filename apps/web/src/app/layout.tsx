@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
+import { ClerkProvider } from '@clerk/nextjs';
 import './globals.css';
 
 const inter = Inter({
@@ -15,11 +16,14 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
-  return (
+  const clerkKey = process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY;
+  const content = (
     <html lang="en" className={inter.variable}>
       <body style={{ margin: 0, padding: 0, fontFamily: 'var(--font-inter), Inter, system-ui, sans-serif' }}>
         {children}
       </body>
     </html>
   );
+  if (!clerkKey) return content;
+  return <ClerkProvider>{content}</ClerkProvider>;
 }

@@ -6,7 +6,7 @@ import { createComplianceEvent } from '@migralink/compliance-engine';
 import { eq } from 'drizzle-orm';
 
 export async function POST(req: Request) {
-  const { userId } = auth();
+  const { userId } = await auth();
   if (!userId) return new NextResponse('Unauthorized', { status: 401 });
 
   const worker = await db.query.workers.findFirst({

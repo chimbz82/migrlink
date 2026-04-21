@@ -1,16 +1,18 @@
-'use client';
+﻿'use client';
 
 import React, { useEffect, useState } from 'react';
 import { ShieldCheck, UploadCloud, UserCheck, LogOut, Fingerprint, Lock, AlertTriangle } from 'lucide-react';
+
+export const dynamic = 'force-dynamic';
 
 const STATUS: 'granted' | 'pending' = 'pending'; // swap to 'granted' when cleared
 
 const SESSION_ID = 'SES-' + Math.random().toString(36).slice(2, 10).toUpperCase() + '-' + Date.now().toString(36).toUpperCase();
 
 const ACTIONS = [
-  { id: 'brp', label: 'Upload BRP Front / Back', sub: 'Biometric Residence Permit · Both sides required', done: false, icon: UploadCloud },
-  { id: 'rtw', label: 'Right to Work Consent', sub: 'Digital Signature Required · GDPR Article 9', done: true, icon: UserCheck },
-  { id: 'bio', label: 'Biometric Verification', sub: 'Liveness check · ISO/IEC 30107-3 compliant', done: false, icon: Fingerprint },
+  { id: 'brp', label: 'Upload BRP Front / Back', sub: 'Biometric Residence Permit Â· Both sides required', done: false, icon: UploadCloud },
+  { id: 'rtw', label: 'Right to Work Consent', sub: 'Digital Signature Required Â· GDPR Article 9', done: true, icon: UserCheck },
+  { id: 'bio', label: 'Biometric Verification', sub: 'Liveness check Â· ISO/IEC 30107-3 compliant', done: false, icon: Fingerprint },
 ];
 
 export default function WorkerPortalPage() {
@@ -104,7 +106,7 @@ export default function WorkerPortalPage() {
                     textTransform: 'uppercase',
                   }}
                 >
-                  {isGranted ? '✓  CLEARANCE GRANTED' : '⏳  PENDING REVIEW'}
+                  {isGranted ? 'âœ“  CLEARANCE GRANTED' : 'â³  PENDING REVIEW'}
                 </div>
                 <div style={{ fontSize: '10px', color: isGranted ? '#047857' : '#B45309', marginTop: '3px' }}>
                   {isGranted
@@ -113,7 +115,7 @@ export default function WorkerPortalPage() {
                   }
                 </div>
                 <div style={{ fontSize: '9px', color: '#94A3B8', marginTop: '6px', fontFamily: 'monospace', letterSpacing: '0.04em' }}>
-                  REF: UKVI-2024-0039 · STEP 2 OF 3 · 60% COMPLETE
+                  REF: UKVI-2024-0039 Â· STEP 2 OF 3 Â· 60% COMPLETE
                 </div>
               </div>
             </div>
@@ -174,7 +176,7 @@ export default function WorkerPortalPage() {
                           whiteSpace: 'nowrap',
                         }}
                       >
-                        ✓ DONE
+                        âœ“ DONE
                       </span>
                     )
                     : (
@@ -192,7 +194,7 @@ export default function WorkerPortalPage() {
                           whiteSpace: 'nowrap',
                         }}
                       >
-                        START →
+                        START â†’
                       </button>
                     )
                   }
@@ -244,76 +246,6 @@ export default function WorkerPortalPage() {
               SECURE LOGOUT
             </button>
           </div>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-        {/* Branding & Status */}
-        <div className="text-center space-y-2">
-          <div className="inline-flex items-center justify-center w-12 h-12 bg-[#0F172A] rounded-xl mb-4 shadow-lg">
-            <ShieldCheck className="w-6 h-6 text-[#14B8A6]" />
-          </div>
-          <h1 className="text-xl font-bold text-[#0F172A] dark:text-white tracking-tight">Sponsorship Onboarding</h1>
-          <p className="text-sm text-slate-500 px-8">MigraLink Secure Document Portal for Visa Compliance</p>
-        </div>
-
-        {/* Status Card */}
-        <div className="bg-[#14B8A6] text-white p-6 rounded-2xl shadow-xl shadow-teal-900/10 relative overflow-hidden">
-          <div className="relative z-10">
-            <div className="flex justify-between items-start">
-               <span className="text-[10px] font-bold uppercase tracking-[0.2em] opacity-80">Application Status</span>
-               <Smartphone className="w-4 h-4 opacity-50" />
-            </div>
-            <p className="text-3xl font-black mt-2">Active</p>
-            <div className="mt-4 pt-4 border-t border-white/20 flex justify-between items-end">
-              <span className="text-xs font-medium">Step: Identity Verification</span>
-              <span className="text-xs font-bold">60% Complete</span>
-            </div>
-            {/* Progress bar */}
-            <div className="w-full bg-white/20 h-1 mt-2 rounded-full overflow-hidden">
-               <div className="bg-white h-full" style={{ width: '60%' }} />
-            </div>
-          </div>
-          <div className="absolute top-[-20%] right-[-10%] w-32 h-32 bg-white/10 rounded-full blur-2xl" />
-        </div>
-
-        {/* Action List */}
-        <div className="space-y-3">
-          <div className="bg-white dark:bg-[#0F172A] p-5 rounded-2xl border border-slate-200 dark:border-slate-800 flex items-center justify-between shadow-sm border-l-4 border-l-[#14B8A6]">
-            <div className="flex items-center gap-4">
-              <div className="bg-teal-50 dark:bg-teal-900/30 p-2 rounded-lg">
-                <UploadCloud className="w-5 h-5 text-[#14B8A6]" />
-              </div>
-              <div>
-                <p className="text-sm font-bold text-[#0F172A] dark:text-white">Upload BRP Front/Back</p>
-                <p className="text-[11px] text-slate-500">Biometric Residence Permit</p>
-              </div>
-            </div>
-            <button className="text-[10px] font-bold bg-[#0F172A] text-white px-3 py-2 rounded-lg hover:opacity-90 active:scale-95 transition-all">START</button>
-          </div>
-
-          <div className="bg-white dark:bg-[#0F172A] p-5 rounded-2xl border border-slate-200 dark:border-slate-800 flex items-center justify-between shadow-sm opacity-60">
-            <div className="flex items-center gap-4">
-              <div className="bg-slate-100 dark:bg-slate-800 p-2 rounded-lg text-slate-400">
-                <UserCheck className="w-5 h-5" />
-              </div>
-              <div>
-                <p className="text-sm font-bold">Right to Work Consent</p>
-                <p className="text-[11px]">Digital Signature Required</p>
-              </div>
-            </div>
-            <CheckCircle className="w-5 h-5 text-slate-200 dark:text-slate-700" />
-          </div>
-        </div>
-
-        {/* Privacy Statement Footer */}
-        <div className="bg-[#0F172A] text-slate-300 p-4 rounded-xl mt-6">
-           <p className="text-[10px] font-bold uppercase tracking-widest mb-1 text-white">Privacy Statement</p>
-           <p className="text-[10px] leading-relaxed">
-            Your data is strictly processed under UK GDPR and hosted on Sovereign Cloud infrastructure in the UK-South region. Biometric details are encrypted end-to-end and shared only with UKVI.
-           </p>
         </div>
       </div>
     </div>

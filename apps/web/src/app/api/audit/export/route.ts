@@ -6,7 +6,7 @@ import { complianceEvents } from '@migralink/db/schema';
 import { eq, desc } from 'drizzle-orm';
 
 export async function POST() {
-  const { userId, orgId } = auth();
+  const { userId, orgId } = await auth();
   if (!userId || !orgId) {
     return new NextResponse('Unauthorized', { status: 401 });
   }

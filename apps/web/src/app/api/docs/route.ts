@@ -4,7 +4,7 @@ import { getUploadSignedUrl, getViewSignedUrl } from '@migralink/document-parser
 // import { inngest } from '@/inngest/client';
 
 export async function POST(req: Request) {
-  const { userId, orgId } = auth();
+  const { userId, orgId } = await auth();
   if (!userId || !orgId) return new NextResponse('Unauthorized', { status: 401 });
 
   const { workerId, contentType, documentType } = await req.json();
@@ -18,7 +18,7 @@ export async function POST(req: Request) {
 }
 
 export async function PUT(req: Request) {
-  const { userId, orgId } = auth();
+  const { userId, orgId } = await auth();
   if (!userId || !orgId) return new NextResponse('Unauthorized', { status: 401 });
   
   const { workerId, fileKey, documentType, mimeType } = await req.json();
