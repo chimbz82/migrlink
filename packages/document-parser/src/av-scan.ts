@@ -1,33 +1,36 @@
 import { createComplianceEvent } from '@migralink/compliance-engine';
 
-interface ScanResult {
+export interface ScanResult {
   isSafe: boolean;
   threatDetails: string;
+  scanProvider: 'STUB';
+  byteSize: number;
 }
 
+/**
+ * Virus scan stub — always passes.
+ * Production: replace `isSafe = true` with a real ClamAV /
+ * Cloudmersive VirusScan call before accepting untrusted uploads.
+ */
 export async function scanDocumentBuffer(
-  orgId: string, 
-  workerId: string, 
-  buffer: Buffer, 
-  fileKey: string
+  orgId: string,
+  workerId: string,
+  buffer: Buffer,
+  fileKey: string,
 ): Promise<ScanResult> {
-  console.log(`[AV-SCAN] Submitting ${buffer.length} bytes for analysis.`);
-  
-  try {
-    const isSafe = true; // Stub implementation
-    const threatDetails = isSafe ? 'CLEAN' : 'Win.Malware.Generic';
+  // ── Real scanner would go here ─────────────────────────────────────
+  const isSafe = true;
+  const threatDetails = isSafe ? 'CLEAN' : 'Win.Malware.Generic-Stub';
+  // ───────────────────────────────────────────────────────────────────
 
-    if (!isSafe) {
-      await createComplianceEvent(orgId, workerId, 'DOCUMENT_MALWARE_DETECTED', {
-        fileKey,
-        threatDetails,
-        action: 'UPLOAD_QUARANTINED'
-      });
-    }
-
-    return { isSafe, threatDetails };
-  } catch (error) {
-    console.error('[AV-SCAN] Service unreachable', error);
-    throw new Error('AV_SCANNER_UNAVAILABLE');
+  if (!isSafe) {
+    await createComplianceEvent(orgId, workerId, 'DOCUMENT_MALWARE_DETECTED', {
+      fileKey,
+      threatDetails,
+      action: 'UPLOAD_QUARANTINED',
+      byteSize: buffer.length,
+    });
   }
+
+  return { isSafe, threatDetails, scanProvider: 'STUB', byteSize: buffer.length };
 }
